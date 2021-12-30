@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Licorice', cursive;
+        }
+
+        .main {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: #3498db;
+        }
+
+        .child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        #textarea {
+            border-radius: 10px 10px 0px 0px;
+            border-width: 2px;
+            border-color: black;
+            box-shadow: 1px 1px 1px 1px chartreuse;
+            background-color: cyan;
+        }
+
+        #btn {
+            border-color: black;
+            border-radius: 1px 1px 1px 1px;
+            border-width: 2px;
+            background-color: red;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="child">
+            <h1>Speed test </h1>
+            <h2 id="h2"></h2>
+            <br>
+
+            <textarea id="textarea" cols="70" rows="10" placeholder="write to check"></textarea>
+            <br>
+
+            <button id="btn">Start</button>
+        </div>
+    </div>
+    <script>
+        const setofWord = ["my name is typer",
+            " that together make life on Earth possible",
+            "Some form  nature can be seen through the lush green forests",
+            "the vast sky above us, the oceans without an end",
+            " the mountains standing tall and so on.",
+            "Nature nourishes the survival needs  plants",
+            "animals and humans alike ",
+            "It provides the essential component  oxygen",
+            "sunlight, soil and water."];
+
+
+        const h2 = document.getElementById('h2')
+        const textarea = document.getElementById('textarea')
+        const btn = document.getElementById('btn')
+        let starttime, endtime;
+
+        const playgame = () => {
+             let random = Math.floor(Math.random()*setofWord.length)
+             h2.innerText=setofWord[random]
+
+             let date= new Date()
+             starttime = date.getTime()
+             btn.innerText="Done"
+        }
+        const endplay=()=>{
+            let date= new Date()
+            endtime=date.getTime()
+            let totalTime=((endtime-starttime)/1000);
+          console.log(totalTime)
+            let totalStr=textarea.value;
+            let wordcount=wordCounter(totalStr); 
+            let speed = Math.round((wordcount/totalTime)*60);
+
+            let finalmsg= "you type total at" +speed+  "words per minut"
+            finalmsg+=comparewords(h2.innerText , totalStr)
+            h2.innerText=finalmsg;
+        }
+
+       const comparewords=(str1 , str2)=>{
+             let word1=str1.split(" ")
+             let words2=str2.split(" ")
+              let cnt=0
+
+
+              word1.forEach(function(item , index) {
+                  if(item==words2[index]){
+                      cnt++
+                  }
+              })
+              let errorword=(word1.length-cnt)
+              return(cnt+ "correct out of" +word1.lrngth+ "words and total no of error are" +errorword+ ".")
+       }
+
+       const wordCounter=(str)=>{
+           let response=str.split(" ").length;
+           return response;
+       }
+
+
+        btn.addEventListener('click', function () {
+            if (this.innerText == 'Start') {
+                textarea.disabled = false;
+                playgame();
+            }else if(this.innerText="Done"){
+                textarea.disabled=true;
+                btn.innerText="Start"
+                endplay()
+            }
+        })
+    </script>
+</body>
+
+</html>
